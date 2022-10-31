@@ -1,0 +1,13 @@
+{
+    "name": "WebsiteSetting",
+    "alias": "websitesetting",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\WebsiteSetting\\Providers\\WebsiteSettingServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

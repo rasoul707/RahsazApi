@@ -1,0 +1,13 @@
+{
+    "name": "InternalMessage",
+    "alias": "internalmessage",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\InternalMessage\\Providers\\InternalMessageServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

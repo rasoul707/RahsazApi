@@ -1,0 +1,13 @@
+{
+    "name": "Library",
+    "alias": "library",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Library\\Providers\\LibraryServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

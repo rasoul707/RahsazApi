@@ -1,0 +1,13 @@
+{
+    "name": "FrontPage",
+    "alias": "frontpage",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\FrontPage\\Providers\\FrontPageServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,13 @@
+{
+    "name": "MegaMenu",
+    "alias": "megamenu",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\MegaMenu\\Providers\\MegaMenuServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
