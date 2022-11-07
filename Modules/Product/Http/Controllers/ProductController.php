@@ -106,11 +106,11 @@ class ProductController extends Controller
             ->customSearch($request->search, ['products.name'])
             ->order($request->order_by ?? 'products.id', $request->order_type ?? 'desc')
             ->offset($request->offset)
-            ->pageCount(24);
+            ->pageCount(50);
 
         return response()
             ->json([
-                'page_count' => 24,
+                'page_count' => 50,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount()->each->append('categories'),
             ]);
@@ -146,7 +146,7 @@ class ProductController extends Controller
             $request->id = null;
         }
         $result = CategoryItemLabelSearchResourceForCustomer::collection(CategoryItem::query()
-            ->whereIn('category_id', [1,2,3,4,5])
+            ->whereIn('category_id', [1, 2, 3, 4, 5])
             ->where('parent_category_item_id', $request->id)
             ->get());
         return response()
@@ -209,7 +209,7 @@ class ProductController extends Controller
         }
 
         $product['purchase_price'] = $product->calculatePurchasePrice();
-        $product['user_type'] =$product->calculatePurchasePrice();
+        $product['user_type'] = $product->calculatePurchasePrice();
         // dd(json_encode($product));
 
         return response()
