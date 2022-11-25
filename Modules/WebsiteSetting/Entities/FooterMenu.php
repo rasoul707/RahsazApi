@@ -1,13 +1,12 @@
 <?php
 
-namespace Modules\WebsiteSetting;
+namespace Modules\WebsiteSetting\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Library\Entities\Image;
 
-class Banner extends Model
+class FooterMenu extends Model
 {
-    protected $table = 'banners';
+    protected $table = 'footer_menu';
     protected $guarded = [];
 }

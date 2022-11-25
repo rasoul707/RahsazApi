@@ -14,7 +14,9 @@ use Modules\MegaMenu\Entities\MegaMenu;
 use Modules\Product\Entities\Builder\ProductBuilder;
 use Modules\Product\Entities\Product;
 use Modules\WebsiteSetting\Entities\CompanyInfoSetting;
+use Modules\WebsiteSetting\Entities\FooterMenu;
 use Illuminate\Support\Facades\Log;
+
 
 class FrontendController extends Controller
 {
@@ -75,7 +77,14 @@ class FrontendController extends Controller
     public function aboutUs()
     {
         return response()
-           ->json(CompanyInfoSetting::query()->get());
+            ->json(CompanyInfoSetting::query()->get());
+    }
+
+
+    public function footerMenu()
+    {
+        return response()
+            ->json(FooterMenu::query()->get());
     }
 
 
@@ -95,7 +104,7 @@ class FrontendController extends Controller
     public function megaMenu()
     {
         $megaMenus = MegaMenu::query()
-            ->select(['id', 'parent_id', 'name','icon'])
+            ->select(['id', 'parent_id', 'name', 'icon'])
             ->where('parent_id', null)
             // ->with(['ch' => function($query){
             //     $query->where('location', 'West');
@@ -144,7 +153,7 @@ class FrontendController extends Controller
     public function mapMegaMenu()
     {
         $mapMegaMenus = MapMegaMenu::query()
-            ->select(['id', 'parent_id', 'name','icon'])
+            ->select(['id', 'parent_id', 'name', 'icon'])
             ->where('parent_id', null)
             ->with(['children'])
             ->orderBy('order')
@@ -201,13 +210,13 @@ class FrontendController extends Controller
             ->where('id', $request->mega_menu_id)
             ->firstOrFail();
         $name = $mapMegaMenu->name;
-            
+
         $level2Ids = CategoryItem::query()
             ->with(['products', 'image'])
-            ->whereIn('category_id', [12,8])
-            ->where('name', 'like', '%'. $name . '%')
+            ->whereIn('category_id', [12, 8])
+            ->where('name', 'like', '%' . $name . '%')
             ->get()->pluck('id');
-            
+
         // error_log(print_r($level2Ids,true));
         // $level3Ids = CategoryItem::query()
         // ->with(['products', 'image'])
@@ -248,7 +257,7 @@ class FrontendController extends Controller
         $cip = CategoryItemProduct::query()
             ->whereIn('category_item_id', [$map->id])
             ->get();
-        if (empty($cip) or count($cip)==0) {
+        if (empty($cip) or count($cip) == 0) {
             return response()
                 ->json([
                     'total_count' => 0,
@@ -259,9 +268,9 @@ class FrontendController extends Controller
 
         foreach ($cip as $c) {
             $product = Product::query()
-            ->where('id', $c->product_id)
-            ->with(['coverImage'])
-            ->first();
+                ->where('id', $c->product_id)
+                ->with(['coverImage'])
+                ->first();
             $product['map_info'] = $c;
             // error_log(print_r($product,true));
             if ($product) {
@@ -269,12 +278,12 @@ class FrontendController extends Controller
             }
         }
 
-        
+
         return response()
-                ->json([
-                    'total_count' => count($products),
-                    'map' => $map,
-                    'items' => $products
-                ]);
+            ->json([
+                'total_count' => count($products),
+                'map' => $map,
+                'items' => $products
+            ]);
     }
 }
