@@ -14,7 +14,8 @@ use Modules\MegaMenu\Entities\MegaMenu;
 use Modules\Product\Entities\Builder\ProductBuilder;
 use Modules\Product\Entities\Product;
 use Modules\WebsiteSetting\Entities\CompanyInfoSetting;
-use Modules\WebsiteSetting\Entities\FooterMenu;
+use Modules\Frontend\Entities\FooterMenu;
+use Modules\Frontend\Entities\FooterMenuItems;
 use Illuminate\Support\Facades\Log;
 
 
@@ -76,15 +77,21 @@ class FrontendController extends Controller
      */
     public function aboutUs()
     {
-        return response()
-            ->json(CompanyInfoSetting::query()->get());
+        return response()->json(CompanyInfoSetting::query()->get());
     }
 
 
     public function footerMenu()
     {
-        return response()
-            ->json(FooterMenu::query()->get());
+        $footerMenu = FooterMenu::query()
+            ->whereHas('items', function ($query) {
+                // $query->select(['title', 'link', 'priority']);
+            })
+            ->with(['items'])
+            // ->select(['title', 'xs', 'sm', 'md', 'lg'])
+            ->orderBy('priority')
+            ->get();
+        return response()->json($footerMenu);
     }
 
 

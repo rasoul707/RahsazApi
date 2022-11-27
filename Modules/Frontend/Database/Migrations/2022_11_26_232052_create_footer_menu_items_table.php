@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMenuidToFooterMenuTable extends Migration
+class CreateFooterMenuItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class AddMenuidToFooterMenuTable extends Migration
      */
     public function up()
     {
-        Schema::table('footer_menu', function (Blueprint $table) {
+        Schema::create('footer_menu_items', function (Blueprint $table) {
+            $table->id();
+            $table->string('link');
+            $table->string('title');
             $table->integer('menu_id');
-            $table->integer('priority');
+            $table->integer('priority')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -26,7 +30,6 @@ class AddMenuidToFooterMenuTable extends Migration
      */
     public function down()
     {
-        Schema::table('footer_menu', function (Blueprint $table) {
-        });
+        Schema::dropIfExists('footer_menu_items');
     }
 }
