@@ -84,11 +84,8 @@ class FrontendController extends Controller
     public function footerMenu()
     {
         $footerMenu = FooterMenu::query()
-            ->whereHas('items', function ($query) {
-                // $query->select(['title', 'link', 'priority']);
-            })
             ->with(['items'])
-            // ->select(['title', 'xs', 'sm', 'md', 'lg'])
+            // ->select(['title', 'xs', 'sm', 'md', 'lg',])
             ->orderBy('priority')
             ->get();
         return response()->json($footerMenu);
