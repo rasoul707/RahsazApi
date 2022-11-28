@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Frontend\Entities;
+namespace Modules\WebsiteSetting\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +12,7 @@ class FooterMenu extends Model
 
     public function items()
     {
-        return $this->hasMany(FooterMenuItems::class, 'menu_id');
+        return $this->hasMany(FooterMenuItems::class, 'menu_id')
+            ->orderBy('priority');
     }
 }

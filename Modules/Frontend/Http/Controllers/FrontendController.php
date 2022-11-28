@@ -14,8 +14,7 @@ use Modules\MegaMenu\Entities\MegaMenu;
 use Modules\Product\Entities\Builder\ProductBuilder;
 use Modules\Product\Entities\Product;
 use Modules\WebsiteSetting\Entities\CompanyInfoSetting;
-use Modules\Frontend\Entities\FooterMenu;
-use Modules\Frontend\Entities\FooterMenuItems;
+use Modules\WebsiteSetting\Entities\FooterMenu;
 use Illuminate\Support\Facades\Log;
 
 
@@ -85,7 +84,6 @@ class FrontendController extends Controller
     {
         $footerMenu = FooterMenu::query()
             ->with(['items'])
-            // ->select(['title', 'xs', 'sm', 'md', 'lg',])
             ->orderBy('priority')
             ->get();
         return response()->json($footerMenu);

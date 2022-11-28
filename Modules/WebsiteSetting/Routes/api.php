@@ -30,6 +30,9 @@ Route::group(['middleware' => [], 'prefix' => '/admin/website-setting'], functio
     Route::get('/banners/index', [\Modules\WebsiteSetting\Http\Controllers\Admin\BannerController::class, 'index']);
 
 
+    // FooterSettings
+    Route::post('/footer/store', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'store']);
+    Route::get('/footer/index', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'index']);
 });
 
 
@@ -59,5 +62,3 @@ Route::group(['middleware' => [], 'prefix' => '/admin/general-setting'], functio
 Route::group(['middleware' => [], 'prefix' => '/general-setting'], function () {
     Route::get('/signup-forms/index', [\Modules\WebsiteSetting\Http\Controllers\WebsiteSettingController::class, 'signupFormsIndex']);
 });
-
-
