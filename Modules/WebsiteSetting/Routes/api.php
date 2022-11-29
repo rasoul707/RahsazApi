@@ -32,11 +32,12 @@ Route::group(['middleware' => [], 'prefix' => '/admin/website-setting'], functio
 
     // FooterSettings
     Route::get('/footer/index', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'index']);
+    Route::get('/footer/show/{id}', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'show']);
     Route::post('/footer/store', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'store']);
     Route::post('/footer/store/item', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'storeItem']);
     Route::delete('/footer/destroy/item/{id}', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'destroyItem']);
     Route::delete('/footer/destroy/{id}', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'destroy']);
-    Route::post('/footer/update', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'update']);
+    Route::post('/footer/update/{id}', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'update']);
 });
 
 

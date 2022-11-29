@@ -22,6 +22,17 @@ class FooterController extends Controller
         return response()->json($footerMenu);
     }
 
+    public function show($id)
+    {
+        $footerMenu = FooterMenu::query()
+            ->where('id', '=', $id)
+            ->with(['items'])
+            ->orderBy('priority')
+            ->get();
+        if (count($footerMenu)) return response()->json($footerMenu[0]);
+        return response()->json(['message' => "The menu not found"], '404');
+    }
+
 
     public function store(Request $request)
     {
@@ -109,7 +120,6 @@ class FooterController extends Controller
 
     public function update(Request $request)
     {
-
 
         return response()->json([]);
     }
