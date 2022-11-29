@@ -16,7 +16,7 @@ class FooterController extends Controller
     public function index()
     {
         $footerMenu = FooterMenu::query()
-            ->with(['items'])
+            // ->with(['items'])
             ->orderBy('priority')
             ->get();
         return response()->json($footerMenu);
