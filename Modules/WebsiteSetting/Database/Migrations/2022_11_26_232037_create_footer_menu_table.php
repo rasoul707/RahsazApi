@@ -16,7 +16,7 @@ class CreateFooterMenuTable extends Migration
         Schema::create('footer_menu', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->integer('priority')->nullable();
+            $table->integer('priority')->default(1)->nullable();
             $table->integer('xs')->default(12)->nullable();
             $table->integer('sm')->default(null)->nullable();
             $table->integer('md')->default(3)->nullable();

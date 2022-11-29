@@ -18,7 +18,7 @@ class CreateFooterMenuItemsTable extends Migration
             $table->string('link');
             $table->string('title');
             $table->integer('menu_id');
-            $table->integer('priority')->nullable();
+            $table->integer('priority')->default(1)->nullable();
             $table->timestamps();
         });
     }
