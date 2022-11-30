@@ -128,10 +128,10 @@ class FooterController extends Controller
         $footermenu->lg = $request->lg;
 
         foreach ($request->items as $item) {
-            $footermenuitem = FooterMenuItems::query()->findOrFail($item->id);
-            $footermenuitem->title = $item->title;
-            $footermenuitem->link = $item->link;
-            $footermenuitem->priority = $item->priority;
+            $footermenuitem = FooterMenuItems::query()->findOrFail($item['id']);
+            $footermenuitem->title = $item['title'];
+            $footermenuitem->link = $item['link'];
+            $footermenuitem->priority = $item['priority'];
             $footermenuitem->save();
         }
 
@@ -142,16 +142,17 @@ class FooterController extends Controller
 
     public function updateAll(Request $request)
     {
+
         foreach ($request->footerMenu as $item) {
-            $footermenu = FooterMenu::query()->findOrFail($item->id);
-            $footermenu->title = $item->title;
-            $footermenu->priority = $item->priority;
-            $footermenu->xs = $request->xs;
-            $footermenu->sm = $request->sm;
-            $footermenu->md = $request->md;
-            $footermenu->lg = $request->lg;
+            $footermenu = FooterMenu::query()->findOrFail($item['id']);
+            $footermenu->title = $item['title'];
+            $footermenu->priority = $item['priority'];
+            $footermenu->xs = $item['xs'];
+            $footermenu->sm = $item['sm'];
+            $footermenu->md = $item['md'];
+            $footermenu->lg = $item['lg'];
             $footermenu->save();
         }
-        return response()->json([]);
+        return response()->json(true);
     }
 }
