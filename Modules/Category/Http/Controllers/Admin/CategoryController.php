@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Category\Http\Controllers\Admin;
 
 use App\Http\Resources\CategoryItemIndexResource;
@@ -88,6 +89,7 @@ class CategoryController extends Controller
      */
     public function childItems(Request $request, $id)
     {
+
         $category = Category::query()
             ->where('type', Category::TYPES['child'])
             ->findOrFail($id);
@@ -268,9 +270,9 @@ class CategoryController extends Controller
 
     public function updateOrderItem($param)
     {
-        $item=explode('-', $param);
-        $id=$item[0];
-        $order=$item[1];
+        $item = explode('-', $param);
+        $id = $item[0];
+        $order = $item[1];
         $categoryItem = CategoryItem::query()
             ->where('id', $id)
             ->firstOrFail();
@@ -288,7 +290,7 @@ class CategoryController extends Controller
             ->json(null, 204);
     }
 
-    
+
     /**
      * @OA\GET(
      *     path="/admin/categories/show-item/{id}",
@@ -603,9 +605,9 @@ class CategoryController extends Controller
         $category = Category::query()
             ->where('type', Category::TYPES['child'])
             ->findOrFail($id);
-        $fakeId =$id;
-        if ($id==12) {
-            $fakeId=array(8,12);
+        $fakeId = $id;
+        if ($id == 12) {
+            $fakeId = array(8, 12);
         }
         $categoryItems = (new CategoryItemBuilder())
             ->with(['parent'])

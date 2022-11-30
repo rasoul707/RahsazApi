@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Product\Http\Controllers\Admin;
 
 use App\Http\Resources\CategoryItemLabelSearchResource;
@@ -39,6 +40,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'offset' => ['required'],
+            'page_size' => ['required'],
         ]);
         $builder = (new ProductBuilder())
             ->with([
@@ -48,10 +50,10 @@ class ProductController extends Controller
             ->search($request->search, ['name'])
             ->order($request->order_by ?? 'id', $request->order_type ?? 'desc')
             ->offset($request->offset)
-            ->pageCount(25);
+            ->pageCount($request->page_size);
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount()->each->append('categories'),
             ]);
