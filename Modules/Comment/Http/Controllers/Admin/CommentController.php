@@ -58,11 +58,11 @@ class CommentController extends Controller
             ->type($request->type)
             ->search($request->search, ['content'])
             ->offset($request->offset)
-            ->pageCount(25);
+            ->pageCount($request->page_size);
 
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount(),
             ]);

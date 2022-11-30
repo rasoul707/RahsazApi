@@ -14,20 +14,20 @@ class FrontPageController extends Controller
     public function index(Request $request)
     {
         $builder = (new PageBuilder())
-        
-        ->search($request->search, ['id', 'name'])
-        ->overallStatus($request->overall_status)
-        ->processStatus($request->process_status)
-        ->order($request->order_by, $request->order_type)
-        ->customSort($request->custom_sort)
-        ->offset($request->offset)
-        ->pageCount(25);
+
+            ->search($request->search, ['id', 'name'])
+            ->overallStatus($request->overall_status)
+            ->processStatus($request->process_status)
+            ->order($request->order_by, $request->order_type)
+            ->customSort($request->custom_sort)
+            ->offset($request->offset)
+            ->pageCount($request->page_size);
 
         return response()->json([
-        'page_count' => 25,
-        'total_count' => $builder->count(),
-        'items' => $builder->getWithPageCount(),
-    ]);
+            'page_count' => $request->page_size,
+            'total_count' => $builder->count(),
+            'items' => $builder->getWithPageCount(),
+        ]);
     }
 
     public function show($id)

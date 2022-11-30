@@ -21,12 +21,12 @@ class ImageController extends Controller
         ]);
         $builder = (new ImageBuilder())
             ->offset($request->offset)
-            ->pageCount(25)
+            ->pageCount($request->page_size)
             ->order($request->order_by ?? 'id', $request->order_type ?? 'desc');
 
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount(),
             ]);
@@ -38,26 +38,26 @@ class ImageController extends Controller
             ->findOrFail($id)
             ->delete();
 
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
 
-    public function update(Request $request ,$id)
+    public function update(Request $request, $id)
     {
         $image = Image::query()
             ->findOrFail($id);
         $image->title    = $request->title;
         $image->alt      = $request->alt;
         $image->save();
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
 
     public function store(Request $request)
     {
         $image = $request->file('image');
         Validator::make(['image' => $image], [
-            'image' => ['required','mimes:webm,jpg,jpeg,bmp,png'],
+            'image' => ['required', 'mimes:webm,jpg,jpeg,bmp,png'],
         ])->validate();
-        $fileName = time() . ' '. $image->getClientOriginalName();
+        $fileName = time() . ' ' . $image->getClientOriginalName();
         Storage::disk('local')->putFileAs(
             'public/images',
             $image,

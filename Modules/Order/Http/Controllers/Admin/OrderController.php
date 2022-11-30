@@ -111,16 +111,16 @@ class OrderController extends Controller
             ->with([
                 'user'
             ])
-            ->search($request->search, ['id', 'overall_status' ,'issue_tracking_number'])
+            ->search($request->search, ['id', 'overall_status', 'issue_tracking_number'])
             ->overallStatus($request->overall_status)
             ->processStatus($request->process_status)
             ->order($request->order_by, $request->order_type)
             ->customSort($request->custom_sort)
             ->offset($request->offset)
-            ->pageCount(25);
+            ->pageCount($request->page_size);
 
         return response()->json([
-            'page_count' => 25,
+            'page_count' => $request->page_size,
             'total_count' => $builder->count(),
             'items' => $builder->getWithPageCount()->each->append(['total_amount']),
         ]);
@@ -384,7 +384,7 @@ class OrderController extends Controller
     public function update(UpdateOrCreateOrderRequest $request, $id)
     {
         // return response()->json('kkkk', 204);
-        
+
 
         $order = Order::findOrFail($id);
 
@@ -485,7 +485,7 @@ class OrderController extends Controller
     public function updateProductStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => ['required', 'in:'.implode(',', array_keys(OrderProduct::STATUSES))],
+            'status' => ['required', 'in:' . implode(',', array_keys(OrderProduct::STATUSES))],
         ]);
 
         $orderProduct = OrderProduct::query()->findOrFail($id);

@@ -23,11 +23,11 @@ class BlogController extends Controller
             ->status($request->status)
             ->search($request->search, ['title', 'description'])
             ->offset($request->offset)
-            ->pageCount(25);
+            ->pageCount($request->page_size);
 
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount(),
             ]);
@@ -41,7 +41,7 @@ class BlogController extends Controller
             'description' => ['required'],
             'image_id' => ['nullable'],
             'has_educational_video' => ['required'],
-            'tags' => ['nullable','array'],
+            'tags' => ['nullable', 'array'],
             'status' => ['required'],
         ]);
 
@@ -56,8 +56,7 @@ class BlogController extends Controller
                 'video_link' => $request->video_link,
             ]);
 
-        foreach ($request->tags ?? [] as $tag)
-        {
+        foreach ($request->tags ?? [] as $tag) {
             Tag::query()
                 ->create([
                     'taggable_id' => $blogPost->id,
@@ -67,8 +66,7 @@ class BlogController extends Controller
         }
 
         return response()
-            ->json(null,204);
-
+            ->json(null, 204);
     }
 
     public function update(Request $request, $id)
@@ -86,22 +84,21 @@ class BlogController extends Controller
         $blogPost = BlogPost::query()->findOrFail($id);
 
         $blogPost->update([
-                'written_by_user_id' => $request->written_by_user_id,
-                'title' => $request->title,
-                'description' => $request->description,
-                'image_id' => $request->image_id,
-                'has_educational_video' => $request->has_educational_video,
-                'status' => $request->status,
-                'video_link' => $request->video_link,
-            ]);
+            'written_by_user_id' => $request->written_by_user_id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'image_id' => $request->image_id,
+            'has_educational_video' => $request->has_educational_video,
+            'status' => $request->status,
+            'video_link' => $request->video_link,
+        ]);
 
         Tag::query()
             ->where('taggable_id', $blogPost->id)
             ->where('taggable_type', BlogPost::class)
             ->delete();
 
-        foreach ($request->tags as $tag)
-        {
+        foreach ($request->tags as $tag) {
             Tag::query()
                 ->create([
                     'taggable_id' => $blogPost->id,
@@ -122,7 +119,7 @@ class BlogController extends Controller
             ->update(['status' => $request->status]);
 
         return response()
-            ->json(null ,204);
+            ->json(null, 204);
     }
 
     public function show($id)
@@ -140,6 +137,6 @@ class BlogController extends Controller
             ->delete();
 
         return response()
-            ->json(null ,204);
+            ->json(null, 204);
     }
 }

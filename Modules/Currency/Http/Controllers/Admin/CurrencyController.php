@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Currency\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
@@ -33,10 +34,10 @@ class CurrencyController extends Controller
         $builder = (new CurrencyBuilder())
             ->order($request->order_by, $request->order_type)
 
-            ->pageCount(25);
+            ->pageCount($request->page_size);
 
         return response()->json([
-            'page_count' => 25,
+            'page_count' => $request->page_size,
             'total_count' => $builder->count(),
             'items' => $builder->getWithPageCount(),
         ]);

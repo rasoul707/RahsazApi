@@ -235,8 +235,7 @@ class SubAdminController extends Controller
         ]);
 
         $user->type = User::TYPES['مدیر'];
-        if($request->password)
-        {
+        if ($request->password) {
             $user->password = bcrypt($request->password);
         }
         $user->first_name = $request->first_name;
@@ -304,18 +303,15 @@ class SubAdminController extends Controller
         ]);
 
         UserPermission::query()->where('user_id', $user->id)->delete();
-        foreach ($request->permissions as $permission)
-        {
+        foreach ($request->permissions as $permission) {
             $permissionModel = Permission::query()->where('tag_id_en', $permission)->first();
-            if($permissionModel)
-            {
+            if ($permissionModel) {
                 UserPermission::query()
                     ->create([
                         'user_id' => $user->id,
                         'permissions_id' => $permissionModel->id,
-                ]);
+                    ]);
             }
-
         }
 
 
@@ -400,17 +396,18 @@ class SubAdminController extends Controller
     {
         $request->validate([
             'offset' => ['required'],
+            'page_size' => ['required'],
         ]);
 
         $builder = (new UserBuilder())
             ->type(User::TYPES['مدیر'])
-            ->search($request->search,['first_name', 'last_name'])
+            ->search($request->search, ['first_name', 'last_name'])
             ->offset($request->offset)
-            ->pageCount(25);
+            ->pageCount($request->page_size);
 
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount(),
             ]);
@@ -483,11 +480,9 @@ class SubAdminController extends Controller
 
     public function showPermissions(Request $request)
     {
-        if(empty($request->id))
-        {
+        if (empty($request->id)) {
             $allPermissions = Permission::query()->get();
-            foreach ($allPermissions as $allPermission)
-            {
+            foreach ($allPermissions as $allPermission) {
                 $allPermission['user_access'] = false;
             }
 
@@ -500,8 +495,7 @@ class SubAdminController extends Controller
             ->findOrFail($request->id);
 
         $allPermissions = Permission::query()->get();
-        foreach ($allPermissions as $allPermission)
-        {
+        foreach ($allPermissions as $allPermission) {
             $allPermission['user_access'] = UserPermission::query()
                 ->where('permission_id', $allPermission->id)
                 ->where('user_id', $user->id)
@@ -549,7 +543,7 @@ class SubAdminController extends Controller
 
         $builder = (new UserBuilder())
             ->type(User::TYPES['مدیر'])
-            ->search($request->search,['first_name', 'last_name'])
+            ->search($request->search, ['first_name', 'last_name'])
             ->offset($request->offset)
             ->pageCount(25);
 

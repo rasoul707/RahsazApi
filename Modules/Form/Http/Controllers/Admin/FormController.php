@@ -44,12 +44,12 @@ class FormController extends Controller
         $builder = (new FormBuilder())
             ->order($request->order_by ?? 'created_at', $request->order_type ?? 'desc')
             ->offset($request->offset ?? 0)
-            ->pageCount(25)
+            ->pageCount($request->page_size)
             ->search($request->search, ['form_type', 'request_type', 'section_type', 'full_name', 'phone_number', 'email', 'description']);
 
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount(),
             ]);

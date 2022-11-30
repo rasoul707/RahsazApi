@@ -27,11 +27,11 @@ class CustomerController extends Controller
             ->order($request->order_by, $request->order_type)
             ->type(User::TYPES['مشتری'])
             ->offset($request->offset)
-            ->pageCount();
+            ->pageCount($request->page_size);
 
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount(),
             ]);

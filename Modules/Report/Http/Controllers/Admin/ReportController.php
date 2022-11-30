@@ -64,10 +64,9 @@ class ReportController extends Controller
 
         $ranges = Carbon::parse(Carbon::parse($startDate))->daysUntil(Carbon::parse($endDate));
         $chart = [];
-        foreach ($ranges as $date)
-        {
+        foreach ($ranges as $date) {
             $orderCounts = (new OrderBuilder())
-                ->paidAtBetween(Carbon::parse($date)->startOfDay(),Carbon::parse($date)->endOfDay())
+                ->paidAtBetween(Carbon::parse($date)->startOfDay(), Carbon::parse($date)->endOfDay())
                 ->count();
 
             $vertaDate = verta($date);
@@ -136,8 +135,7 @@ class ReportController extends Controller
 
         $ranges = Carbon::parse(Carbon::parse($startDate))->monthsUntil(Carbon::parse($endDate));
         $chart = [];
-        foreach ($ranges as $date)
-        {
+        foreach ($ranges as $date) {
             $allCustomerCounts = (new UserBuilder())
                 ->type(User::TYPES['مشتری'])
                 ->registerBeforeDate(Carbon::parse($date)->endOfMonth())
@@ -145,25 +143,25 @@ class ReportController extends Controller
 
             $newCustomerCounts = (new UserBuilder())
                 ->type(User::TYPES['مشتری'])
-                ->registerBetween(Carbon::parse($date)->startOfMonth(),Carbon::parse($date)->endOfMonth())
+                ->registerBetween(Carbon::parse($date)->startOfMonth(), Carbon::parse($date)->endOfMonth())
                 ->count();
 
             $goldCustomerCounts = (new UserBuilder())
                 ->type(User::TYPES['مشتری'])
                 ->package(User::PACKAGES['طلایی'])
-                ->registerBetween(Carbon::parse($date)->startOfMonth(),Carbon::parse($date)->endOfMonth())
+                ->registerBetween(Carbon::parse($date)->startOfMonth(), Carbon::parse($date)->endOfMonth())
                 ->count();
 
             $silverCustomerCounts = (new UserBuilder())
                 ->type(User::TYPES['مشتری'])
                 ->package(User::PACKAGES['نقره ای'])
-                ->registerBetween(Carbon::parse($date)->startOfMonth(),Carbon::parse($date)->endOfMonth())
+                ->registerBetween(Carbon::parse($date)->startOfMonth(), Carbon::parse($date)->endOfMonth())
                 ->count();
 
             $bronzeCustomerCounts = (new UserBuilder())
                 ->type(User::TYPES['مشتری'])
                 ->package(User::PACKAGES['برنزی'])
-                ->registerBetween(Carbon::parse($date)->startOfMonth(),Carbon::parse($date)->endOfMonth())
+                ->registerBetween(Carbon::parse($date)->startOfMonth(), Carbon::parse($date)->endOfMonth())
                 ->count();
 
             $vertaDate = verta($date);
@@ -183,9 +181,9 @@ class ReportController extends Controller
         $chartCollection = collect($chart);
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $chartCollection->count(),
-                'items' => $chartCollection->skip(25 * $request->offset)->take(25)->values()
+                'items' => $chartCollection->skip($request->page_size * $request->offset)->take($request->page_size)->values()
             ]);
     }
 
@@ -247,11 +245,11 @@ class ReportController extends Controller
             ->search($request->search, ['name'])
             ->order($request->order_by ?? 'id', $request->order_type ?? 'desc')
             ->offset($request->offset)
-            ->pageCount(25);
+            ->pageCount($request->page_size);
 
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount(),
             ]);
@@ -303,15 +301,15 @@ class ReportController extends Controller
             'supply_count_in_store' => ['required'],
         ]);
 
-       Product::query()
-           ->findOrFail($id)
-           ->update([
-               'name' => $request->name,
-               'supply_count_in_store' => $request->supply_count_in_store,
-           ]);
+        Product::query()
+            ->findOrFail($id)
+            ->update([
+                'name' => $request->name,
+                'supply_count_in_store' => $request->supply_count_in_store,
+            ]);
 
         return response()
-            ->json(null,204);
+            ->json(null, 204);
     }
 
     /**

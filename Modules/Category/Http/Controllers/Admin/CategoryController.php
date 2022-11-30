@@ -99,10 +99,10 @@ class CategoryController extends Controller
             ->search($request->search, ['name'])
             // ->order('parent_category_item_id','asc')
             ->offset($request->offset ?? 0)
-            ->pageCount(25);
+            ->pageCount($request->page_size);
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $categoryItems->count(),
                 'items' => CategoryItemIndexResource::collection($categoryItems->getWithPageCount())
                 //'items' => $categoryItems->getWithPageCount()

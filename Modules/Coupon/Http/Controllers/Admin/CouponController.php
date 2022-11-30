@@ -44,7 +44,7 @@ class CouponController extends Controller
      */
     public function store(StoreCouponRequest $request)
     {
-        DB::transaction(function () use($request){
+        DB::transaction(function () use ($request) {
             $coupon = new Coupon();
             Coupon::updateOrCreateCoupon($coupon, $request);
         });
@@ -87,7 +87,7 @@ class CouponController extends Controller
             ->findOrFail($id)->delete();
 
         return response()
-            ->json(null,204);
+            ->json(null, 204);
     }
 
 
@@ -124,7 +124,7 @@ class CouponController extends Controller
 
     public function update(Request $request, $id)
     {
-        DB::transaction(function () use($request, $id){
+        DB::transaction(function () use ($request, $id) {
             $coupon = Coupon::findOrFail($id);
             Coupon::updateOrCreateCoupon($coupon, $request);
         });
@@ -177,11 +177,11 @@ class CouponController extends Controller
             ->activationType($request->activation_type)
             ->search($request->search, ['code'])
             ->offset($request->offset)
-            ->pageCount(25);
+            ->pageCount($request->page_size);
 
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount(),
             ]);
@@ -228,6 +228,5 @@ class CouponController extends Controller
 
         return response()
             ->json($coupon);
-
     }
 }

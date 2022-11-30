@@ -23,12 +23,12 @@ class VideoController extends Controller
         ]);
         $builder = (new VideoBuilder())
             ->offset($request->offset)
-            ->pageCount(25)
+            ->pageCount($request->page_size)
             ->order($request->order_by ?? 'id', $request->order_type ?? 'desc');
 
         return response()
             ->json([
-                'page_count' => 25,
+                'page_count' => $request->page_size,
                 'total_count' => $builder->count(),
                 'items' => $builder->getWithPageCount(),
             ]);
@@ -40,17 +40,17 @@ class VideoController extends Controller
             ->findOrFail($id)
             ->delete();
 
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
 
-    public function update(Request $request ,$id)
+    public function update(Request $request, $id)
     {
         $video = Video::query()
             ->findOrFail($id);
         $video->title    = $request->title;
         $video->alt      = $request->alt;
         $video->save();
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
 
     public function store(Request $request)
@@ -59,7 +59,7 @@ class VideoController extends Controller
         Validator::make(['video' => $video], [
             'video' => ['required'],
         ])->validate();
-        $fileName = time() . ' '. $video->getClientOriginalName();
+        $fileName = time() . ' ' . $video->getClientOriginalName();
         Storage::disk('local')->putFileAs(
             'public/videos',
             $video,
