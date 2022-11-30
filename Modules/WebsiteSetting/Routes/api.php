@@ -38,6 +38,7 @@ Route::group(['middleware' => [], 'prefix' => '/admin/website-setting'], functio
     Route::delete('/footer/destroy/item/{id}', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'destroyItem']);
     Route::delete('/footer/destroy/{id}', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'destroy']);
     Route::post('/footer/update/{id}', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'update']);
+    Route::post('/footer/update', [\Modules\WebsiteSetting\Http\Controllers\Admin\FooterController::class, 'updateAll']);
 });
 
 

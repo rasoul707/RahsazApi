@@ -118,9 +118,40 @@ class FooterController extends Controller
     }
 
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
+        $footermenu = FooterMenu::query()->findOrFail($id);
+        $footermenu->title = $request->title;
+        $footermenu->xs = $request->xs;
+        $footermenu->sm = $request->sm;
+        $footermenu->md = $request->md;
+        $footermenu->lg = $request->lg;
 
+        foreach ($request->items as $item) {
+            $footermenuitem = FooterMenuItems::query()->findOrFail($item->id);
+            $footermenuitem->title = $item->title;
+            $footermenuitem->link = $item->link;
+            $footermenuitem->priority = $item->priority;
+            $footermenuitem->save();
+        }
+
+        $footermenu->save();
+        return response()->json(true);
+    }
+
+
+    public function updateAll(Request $request)
+    {
+        foreach ($request->footerMenu as $item) {
+            $footermenu = FooterMenu::query()->findOrFail($item->id);
+            $footermenu->title = $item->title;
+            $footermenu->priority = $item->priority;
+            $footermenu->xs = $request->xs;
+            $footermenu->sm = $request->sm;
+            $footermenu->md = $request->md;
+            $footermenu->lg = $request->lg;
+            $footermenu->save();
+        }
         return response()->json([]);
     }
 }
