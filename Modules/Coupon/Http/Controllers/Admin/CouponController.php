@@ -83,11 +83,8 @@ class CouponController extends Controller
      */
     public function destroy($id)
     {
-        Coupon::query()
-            ->findOrFail($id)->delete();
-
-        return response()
-            ->json(null, 204);
+        Coupon::query()->findMany(explode(",", $id))->delete();
+        return response()->json(null, 204);
     }
 
 

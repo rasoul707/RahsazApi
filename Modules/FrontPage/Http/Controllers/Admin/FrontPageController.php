@@ -40,12 +40,8 @@ class FrontPageController extends Controller
     }
     public function destroy($id)
     {
-        $user = Page::query()
-            ->findOrFail($id)
-            ->delete();
-
-        return response()
-            ->json(null, 204);
+        Page::query()->findMany(explode(",", $id))->delete();
+        return response()->json(null, 204);
     }
     public function update(Request $request, $id)
     {

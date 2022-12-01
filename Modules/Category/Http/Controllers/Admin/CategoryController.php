@@ -352,22 +352,21 @@ class CategoryController extends Controller
      */
     public function destroyItem($id)
     {
-        $children = CategoryItem::query()
-            ->where('parent_category_item_id', $id)
-            ->delete();
-        $item = CategoryItem::query()
-            ->where('id', $id)
-            ->delete();
+        $ids = explode(",", $id);
+        CategoryItem::query()->whereIn('parent_category_item_id', $ids)->delete();
+        CategoryItem::query()->findMany($ids)->delete();
+
         ProductCategory::query()
-            ->where('category_level_1_id', $id)
-            ->orWhere('category_level_2_id', $id)
-            ->orWhere('category_level_3_id', $id)
-            ->orWhere('category_level_4_id', $id)
+            ->whereIn('category_level_1_id', $ids)
+            ->orWhereIn('category_level_2_id', $ids)
+            ->orWhereIn('category_level_3_id', $ids)
+            ->orWhereIn('category_level_4_id', $ids)
             ->delete();
+
+
         MegaMenu::make();
         MapMegaMenu::make();
-        return response()
-            ->json(null, 204);
+        return response()->json(null, 204);
     }
     /**
      * @OA\PUT(

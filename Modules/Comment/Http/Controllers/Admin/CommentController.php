@@ -138,14 +138,12 @@ class CommentController extends Controller
 
     public function destroy($id)
     {
-        $comment = Comment::query()
-            ->findOrFail($id);
+        $comment = Comment::query()->findMany(explode(",", $id));
 
         $comment->children()->delete();
         $comment->delete();
 
-        return response()
-            ->json(null, 204);
+        return response()->json(null, 204);
     }
 
 

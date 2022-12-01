@@ -171,10 +171,12 @@ class CurrencyController extends Controller
      */
     public function destroy($id)
     {
-        $currency = Currency::query()->findOrFail($id);
+        $currency = Currency::query()->findMany(explode(",", $id));
         $currency->delete();
-        Currency::updateProductsAfterCurrencyDeleted($currency);
 
+        foreach ($currency as $cur) {
+            Currency::updateProductsAfterCurrencyDeleted($cur);
+        }
         return response()->json(null, 204);
     }
 }

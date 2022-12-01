@@ -48,12 +48,8 @@ class CustomerController extends Controller
 
     public function destroy($id)
     {
-        $user = User::query()
-            ->findOrFail($id)
-            ->delete();
-
-        return response()
-            ->json(null, 204);
+        User::query()->findMany(explode(",", $id))->delete();
+        return response()->json(null, 204);
     }
     /**
      * @OA\PUT(

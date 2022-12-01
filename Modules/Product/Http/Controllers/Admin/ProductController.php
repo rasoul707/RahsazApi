@@ -79,9 +79,8 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        Product::query()->findOrFail($id)->delete();
-        return response()
-            ->json(null, 204);
+        Product::query()->findMany(explode(",", $id))->delete();
+        return response()->json(null, 204);
     }
 
     public function labelSearch(Request $request)

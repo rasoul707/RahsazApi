@@ -132,11 +132,7 @@ class BlogController extends Controller
 
     public function destroy($id)
     {
-        BlogPost::query()
-            ->findOrFail($id)
-            ->delete();
-
-        return response()
-            ->json(null, 204);
+        BlogPost::query()->findMany(explode(",", $id))->delete();
+        return response()->json(null, 204);
     }
 }
