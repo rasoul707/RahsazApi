@@ -89,7 +89,6 @@ class CategoryController extends Controller
      */
     public function childItems(Request $request, $id)
     {
-
         $category = Category::query()
             ->where('type', Category::TYPES['child'])
             ->findOrFail($id);
@@ -97,7 +96,7 @@ class CategoryController extends Controller
             ->with(['parent', 'image'])
             ->categoryId($category->id)
             ->search($request->search, ['name'])
-            // ->order('parent_category_item_id','asc')
+            ->order('order', 'asc')
             ->offset($request->offset ?? 0)
             ->pageCount($request->page_size);
         return response()
@@ -268,18 +267,16 @@ class CategoryController extends Controller
     }
 
 
-    public function updateOrderItem($param)
+    public function updateOrders(Request $request)
     {
-        $item = explode('-', $param);
-        $id = $item[0];
-        $order = $item[1];
-        $categoryItem = CategoryItem::query()
-            ->where('id', $id)
-            ->firstOrFail();
-        $categoryItem->order = $order;
-        $categoryItem->save();
-        return response()
-            ->json(null, 204);
+        foreach ($request->items as $order_item) {
+            $id = $order_item['id'];
+            $order = $order_item['order'];
+            $categoryItem = CategoryItem::query()->find($id);
+            $categoryItem->order = $order;
+            $categoryItem->save();
+        }
+        return response()->json(null, 204);
     }
 
     public function updateMenu()

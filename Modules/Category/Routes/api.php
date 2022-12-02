@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['middleware' => [], 'prefix' => '/admin/categories'], function () {
-    Route::get('/update-order-item/{param}', [\Modules\Category\Http\Controllers\Admin\CategoryController::class, 'updateOrderItem']);
+    Route::post('/update-orders', [\Modules\Category\Http\Controllers\Admin\CategoryController::class, 'updateOrders']);
     Route::get('/fathers-index', [\Modules\Category\Http\Controllers\Admin\CategoryController::class, 'fathersIndex']);
     Route::get('/child/{id}/items', [\Modules\Category\Http\Controllers\Admin\CategoryController::class, 'childItems']);
     Route::get('/{id}/children-names', [\Modules\Category\Http\Controllers\Admin\CategoryController::class, 'childrenNames']);
