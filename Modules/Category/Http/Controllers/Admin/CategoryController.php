@@ -258,8 +258,8 @@ class CategoryController extends Controller
         $categoryItem->name = $request->name;
         $categoryItem->description = $request->description;
         $categoryItem->icon_image_id = $request->icon_image_id;
-        $categoryItem->order = $request->order;
-        $categoryItem->icon = $request->icon;
+        // $categoryItem->order = $request->order;
+        // $categoryItem->icon = $request->icon;
         $categoryItem->parent_category_item_id = $request->parent_category_item_id;
         $categoryItem->save();
         return response()
