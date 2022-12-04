@@ -140,8 +140,8 @@ class CommentController extends Controller
     {
         $comment = Comment::query()->findMany(explode(",", $id));
 
-        $comment->children()->delete();
-        $comment->delete();
+        $comment->each->children()->each->delete();
+        $comment->each->delete();
 
         return response()->json(null, 204);
     }

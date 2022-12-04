@@ -351,7 +351,7 @@ class CategoryController extends Controller
     {
         $ids = explode(",", $id);
         CategoryItem::query()->whereIn('parent_category_item_id', $ids)->delete();
-        CategoryItem::query()->findMany($ids)->delete();
+        CategoryItem::query()->findMany($ids)->each->delete();
 
         ProductCategory::query()
             ->whereIn('category_level_1_id', $ids)

@@ -155,7 +155,7 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = Order::query()->findMany(explode(",", $id));
-        $order->overall_status = Order::OVERALL_STATUSES['حذف شده'];
+        $order->each->overall_status = Order::OVERALL_STATUSES['حذف شده'];
         $order->save();
         return response()->json(null, 204);
     }

@@ -54,7 +54,7 @@ class MapMegaMenu extends Model
                 ]);
         }
 
-        // add childs
+        // add children
         $parentMegaMenus = self::query()->where('parent_id', null)->get();
         foreach ($parentMegaMenus as $parentMegaMenu) {
             $parentCategoryItemModels = CategoryItem::query()

@@ -48,7 +48,7 @@ class CustomerController extends Controller
 
     public function destroy($id)
     {
-        User::query()->findMany(explode(",", $id))->delete();
+        User::query()->findMany(explode(",", $id))->each->delete();
         return response()->json(null, 204);
     }
     /**

@@ -79,7 +79,7 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        Product::query()->findMany(explode(",", $id))->delete();
+        Product::query()->findMany(explode(",", $id))->each->delete();
         return response()->json(null, 204);
     }
 

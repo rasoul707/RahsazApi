@@ -348,7 +348,7 @@ class SubAdminController extends Controller
 
     public function destroy($id)
     {
-        User::query()->isSubAdmin()->findMany(explode(",", $id))->delete();
+        User::query()->isSubAdmin()->findMany(explode(",", $id))->each->delete();
         return response()->json(null, 204);
     }
 

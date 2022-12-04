@@ -107,7 +107,7 @@ class FormController extends Controller
      */
     public function destroy($id)
     {
-        Form::query()->findMany(explode(",", $id))->delete();
+        Form::query()->findMany(explode(",", $id))->each->delete();
         return response()->json(null, 204);
     }
 }
