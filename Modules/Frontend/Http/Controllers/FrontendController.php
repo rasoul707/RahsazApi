@@ -211,20 +211,21 @@ class FrontendController extends Controller
         $mapMegaMenu = MapMegaMenu::query()
             ->where('id', $request->mega_menu_id)
             ->firstOrFail();
+
+
+
+
+
         $name = $mapMegaMenu->name;
 
         $level2Ids = CategoryItem::query()
             ->with(['products', 'image'])
             ->whereIn('category_id', [12, 8])
             ->where('name', 'like', '%' . $name . '%')
-            ->get()->pluck('id');
+            ->get()
+            ->pluck('id');
 
-        // error_log(print_r($level2Ids,true));
-        // $level3Ids = CategoryItem::query()
-        // ->with(['products', 'image'])
-        // ->whereIn('category_id', [12])
-        // ->where('name', 'like', '%'. $name . '%')
-        // ->get()->pluck('id');
+
 
         if (empty($level2Ids)) {
             return response()
@@ -234,17 +235,13 @@ class FrontendController extends Controller
                     'items' => []
                 ]);
         }
-        // $levelIds = $level2Ids;
-        // if(empty($level2Ids))
-        // {
-        //     $levelIds = $level3Ids;
-        // }
 
 
         $map = CategoryItem::query()
             ->with(['image'])
             ->whereIn('parent_category_item_id', $level2Ids)
             ->first();
+
 
         if (empty($map)) {
             return response()
@@ -259,6 +256,9 @@ class FrontendController extends Controller
         $cip = CategoryItemProduct::query()
             ->whereIn('category_item_id', [$map->id])
             ->get();
+
+
+
         if (empty($cip) or count($cip) == 0) {
             return response()
                 ->json([
