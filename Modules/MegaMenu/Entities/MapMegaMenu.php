@@ -40,20 +40,20 @@ class MapMegaMenu extends Model
         self::query()->truncate();
 
         $parents = DB::table('category_items')
-            ->select('name', 'order', 'icon')
+            ->select('name', 'order', 'icon', 'id')
             ->where('category_id', 7)
             ->groupBy('name')
             ->distinct()
             ->get();
 
         foreach ($parents as $parent) {
-            self::query()
-                ->create([
-                    'parent_id' => null,
-                    'order'     => $parent->order,
-                    'icon'     => $parent->icon,
-                    'name' => $parent->name,
-                ]);
+            self::query()->create([
+                'parent_id' => null,
+                'order'     => $parent->order,
+                'icon'     => $parent->icon,
+                'name' => $parent->name,
+                'cat_id' => $parent->id,
+            ]);
         }
 
         // add children
@@ -73,13 +73,13 @@ class MapMegaMenu extends Model
                 foreach ($childCategoryItemModels as $childCategoryItemModel) {
                     if (!self::query()->where('parent_id', $parentMegaMenu->id)
                         ->where('name', $childCategoryItemModel->name)->first()) {
-                        self::query()
-                            ->create([
-                                'parent_id' => $parentMegaMenu->id,
-                                'order'     => $childCategoryItemModel->order,
-                                'icon'     => $childCategoryItemModel->icon,
-                                'name' => $childCategoryItemModel->name,
-                            ]);
+                        self::query()->create([
+                            'parent_id' => $parentMegaMenu->id,
+                            'order'     => $childCategoryItemModel->order,
+                            'icon'     => $childCategoryItemModel->icon,
+                            'name' => $childCategoryItemModel->name,
+                            'cat_id' => $childCategoryItemModel->id,
+                        ]);
                     }
 
                     $p = self::query()
@@ -102,13 +102,13 @@ class MapMegaMenu extends Model
                         ->get();
 
                     foreach ($childCategoryItemModels3 as $childCategoryItemModel3) {
-                        self::query()
-                            ->create([
-                                'parent_id' => $p->id,
-                                'icon'     => $childCategoryItemModel3->icon,
-                                'order'     => $childCategoryItemModel3->order,
-                                'name' => $childCategoryItemModel3->name,
-                            ]);
+                        self::query()->create([
+                            'parent_id' => $p->id,
+                            'icon'     => $childCategoryItemModel3->icon,
+                            'order'     => $childCategoryItemModel3->order,
+                            'name' => $childCategoryItemModel3->name,
+                            'cat_id' => $childCategoryItemModel3->id,
+                        ]);
                     }
                     // }
                 }

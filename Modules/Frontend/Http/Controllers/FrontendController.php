@@ -213,19 +213,19 @@ class FrontendController extends Controller
             ->firstOrFail();
 
 
+        $cat_id = $mapMegaMenu->cat_id;
 
-
-
-        $name = $mapMegaMenu->name;
 
         $level2Ids = CategoryItem::query()
             ->with(['products', 'image'])
-            ->whereIn('category_id', [12, 8])
-            ->where('name', 'like', '%' . $name . '%')
-            ->get()
-            ->pluck('id');
+            ->where('category_id', 9)
+            ->where('id', $cat_id)
+            ->get();
+        // ->pluck('id');
 
 
+        return response()
+            ->json($level2Ids);
 
         if (empty($level2Ids)) {
             return response()
@@ -243,10 +243,14 @@ class FrontendController extends Controller
             ->first();
 
 
+        return response()
+            ->json($map);
+
+
         if (empty($map)) {
             return response()
                 ->json([
-                    'total_count' => 0,
+                    'total_count' => 2,
                     'map' => null,
                     'items' => []
                 ]);
@@ -262,7 +266,7 @@ class FrontendController extends Controller
         if (empty($cip) or count($cip) == 0) {
             return response()
                 ->json([
-                    'total_count' => 0,
+                    'total_count' => 3,
                     'map' => null,
                     'items' => []
                 ]);
