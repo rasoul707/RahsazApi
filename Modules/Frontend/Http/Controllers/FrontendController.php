@@ -222,7 +222,7 @@ class FrontendController extends Controller
             ->where('id', $cat_id)
             ->get();
 
-        if (empty($map)) {
+        if (empty($map) or count($map) == 0) {
             return response()
                 ->json([
                     'total_count' => 0,
