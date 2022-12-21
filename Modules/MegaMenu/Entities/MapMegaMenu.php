@@ -19,7 +19,9 @@ class MapMegaMenu extends Model
     public function children()
     {
         error_log("the message for log");
-        $a = $this->hasMany(MapMegaMenu::class, 'parent_id')->select(['id', 'parent_id', 'name'])->orderBy('order');
+        $a = $this->hasMany(MapMegaMenu::class, 'parent_id')
+            ->select(['id', 'parent_id', 'name'])
+            ->orderBy('order');
         // error_log(print_r($a,true));
         // var_dump($a);
         return $a;
@@ -95,7 +97,7 @@ class MapMegaMenu extends Model
                     // {
 
                     $childCategoryItemModels3 = CategoryItem::query()
-                        ->where('category_id', 12)
+                        ->where('category_id', 9)
                         ->where('parent_category_item_id', $childCategoryItemModel->id)
                         ->get();
 
