@@ -216,18 +216,13 @@ class FrontendController extends Controller
         $cat_id = $mapMegaMenu->cat_id;
 
 
-        $level2Ids = CategoryItem::query()
+        $map = CategoryItem::query()
             ->with(['products', 'image'])
             ->where('category_id', 9)
             ->where('id', $cat_id)
             ->get();
-        // ->pluck('id');
 
-
-        return response()
-            ->json($level2Ids);
-
-        if (empty($level2Ids)) {
+        if (empty($map)) {
             return response()
                 ->json([
                     'total_count' => 0,
@@ -236,29 +231,11 @@ class FrontendController extends Controller
                 ]);
         }
 
-
-        $map = CategoryItem::query()
-            ->with(['image'])
-            ->whereIn('parent_category_item_id', $level2Ids)
-            ->first();
-
-
-        return response()
-            ->json($map);
-
-
-        if (empty($map)) {
-            return response()
-                ->json([
-                    'total_count' => 2,
-                    'map' => null,
-                    'items' => []
-                ]);
-        }
+        $map = $map[0];
 
 
         $cip = CategoryItemProduct::query()
-            ->whereIn('category_item_id', [$map->id])
+            ->where('category_item_id', $map->id)
             ->get();
 
 
